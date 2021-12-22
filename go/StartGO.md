@@ -39,11 +39,11 @@
 
 - Go 语言不支持动态链接，因此编译时会将所有依赖编译进同一个二进制文件。
 - 指定输出目录
-    - `go build –o bin/mybinary .`
+  - `go build –o bin/mybinary .`
 - 常用环境变量设置编译操作系统和 CPU 架构
-    - `GOOS=linux GOARCH=amd64 go build`
+  - `GOOS=linux GOARCH=amd64 go build`
 - 全支持列表
-    - `$GOROOT/src/go/build/syslist.go`
+  - `$GOROOT/src/go/build/syslist.go`
 
 ### Go test
 

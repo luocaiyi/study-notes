@@ -64,18 +64,17 @@ const (
 
 - 基本形式
 
-    ```go
-    if condition1 {
-        // do something 
-    } else if condition2 {
-        // do something else 
-    } else {
-        // catch-all or default
-    }
-    ```
+  ```go
+  if condition1 {
+      // do something 
+  } else if condition2 {
+      // do something else 
+  } else {
+      // catch-all or default
+  }
+  ```
 
 - `if` 的简短语句
-
   - 同 `for` 一样， `if` 语句可以在条件表达式前执行一个简单的语句
 
     ```go
@@ -104,30 +103,30 @@ Go 只有一种循环结构：for 循环
 
 - 计入计数器的循环
 
-    ```go
-    // for 初始化语句; 条件语句; 修饰语句 {}
-    for i := 0; i < 10; i++ {
-        sum += i
-    }
-    ```
+  ```go
+  // for 初始化语句; 条件语句; 修饰语句 {}
+  for i := 0; i < 10; i++ {
+      sum += i
+  }
+  ```
 
 - 初始化语句和后置语句是可选的，此场景与 `while` 等价（Go 语言不支持 `while`）
 
-    ```go
-    for ; sum < 1000; {
-        sum += sum
-    }
-    ```
+  ```go
+  for ; sum < 1000; {
+      sum += sum
+  }
+  ```
 
 - 无限循环
 
-    ```go
-    for {
-        if condition1 {
-            break
-        }
-    }
-    ```
+  ```go
+  for {
+      if condition1 {
+          break
+      }
+  }
+  ```
 
 #### for-range
 
@@ -135,13 +134,13 @@ Go 只有一种循环结构：for 循环
 
 ```go
 for index, char := range myString {
-    ...
+    // ...
 }
 for key, value := range MyMap {
-    ...
+    // ...
 }
 for index, value := range MyArray {
-    ...
+    // ...
 }
 ```
 
@@ -166,20 +165,20 @@ Notes: 如果 `for range` 遍历指针数组，则 `value` 取出的指针地址
 - 切片在未初始化之前默认为 `nil`， 长度为0
 - 常用方法
 
-    ```go
-    func main() {
-        myArray := [5]int{1, 2, 3, 4, 5}
-        mySlice := myArray[1:3]
-        fmt.Printf("mySlice %+v\n", mySlice)
-        fullSlice := myArray[:]
-        remove3rdItem := deleteItem(fullSlice, 2)
-        fmt.Printf("remove3rdItem %+v\n", remove3rdItem)
-    }
-    
-    func deleteItem(slice []int, index int) []int {
-        return append(slice[:index], slice[index+1:]...)
-    }
-    ```
+  ```go
+  func main() {
+      myArray := [5]int{1, 2, 3, 4, 5}
+      mySlice := myArray[1:3]
+      fmt.Printf("mySlice %+v\n", mySlice)
+      fullSlice := myArray[:]
+      remove3rdItem := deleteItem(fullSlice, 2)
+      fmt.Printf("remove3rdItem %+v\n", remove3rdItem)
+  }
+  
+  func deleteItem(slice []int, index int) []int {
+      return append(slice[:index], slice[index+1:]...)
+  }
+  ```
 
 关于切片的常见问题
 
@@ -237,15 +236,15 @@ func main() {
 
 - 访问 Map 元素
   - 按 Key 取值
-  
+
     ```go
     value, exists := myMap["a"]
     if exists {
         println(value)
     }
     ```
-    
-    - 遍历 Map
+
+  - 遍历 Map
   
       ```go
       for k, v := range myMap {
@@ -262,75 +261,81 @@ func main() {
 
 ``` go
 type MyType struct {
-  Name string
+    Name string
 }
 func printMyType(t *MyType){
-  println(t.Name)
+    println(t.Name)
 }
 func main(){
-  t := MyType{Name: "test"}
-  printMyType(&t)
+    t := MyType{Name: "test"}
+    printMyType(&t)
 }
 ```
 
 ### JSON
 
 - `Unmarshal`: 从 `string` 转换至 `struct`
-  - ```go
-    func unmarshal2Struct(humanStr string)Human {
-        h := Human{}
-        err := json.Unmarshal([]byte(humanStr), &h)
-        if err != nil {
-            println(err)
-        }
-        return h
-    }
-    ```
+
+  ```go
+  func unmarshal2Struct(humanStr string)Human {
+      h := Human{}
+      err := json.Unmarshal([]byte(humanStr), &h)
+      if err != nil {
+          println(err)
+      }
+      return h
+  }
+  ```
+
 - `Marshal`: 从 `struct` 转换至 `string`
-  - ```go
-    func marshal2JsonString(h Human) string {
-        h.Age = 30
-        updatedBytes, err := json.Marshal(&h)
-        if err != nil {
-            println(err)
-        }
-        return string(updatedBytes)
-    }
-    ```
+
+  ```go
+  func marshal2JsonString(h Human) string {
+      h.Age = 30
+      updatedBytes, err := json.Marshal(&h)
+      if err != nil {
+          println(err)
+      }
+      return string(updatedBytes)
+  }
+  ```
+
 - `json` 包使用 `map[string]interface{}` 和 `[]interface{}` 类型保存任意对象
 - 可通过如下逻辑解析任意 `json`
-  - ```go
-    var obj interface{}
-    err := json.Unmarshal([]byte(humanStr), &obj)
-    objMap, ok := obj.(map[string]interface{})
-    for k, v := range objMap {
-        switch value := v.(type) {
-        case string:
-            fmt.Printf("type of %s is string, value is %v\n", k, value)
-        case interface{}:
-            fmt.Printf("type of %s is interface{}, value is %v\n", k, value)
-        default:
-            fmt.Printf("type of %s is wrong, value is %v\n", k, value)
-        }
-    }
-    ```
+
+  ```go
+  var obj interface{}
+  err := json.Unmarshal([]byte(humanStr), &obj)
+  objMap, ok := obj.(map[string]interface{})
+  for k, v := range objMap {
+      switch value := v.(type) {
+      case string:
+          fmt.Printf("type of %s is string, value is %v\n", k, value)
+      case interface{}:
+          fmt.Printf("type of %s is interface{}, value is %v\n", k, value)
+      default:
+          fmt.Printf("type of %s is wrong, value is %v\n", k, value)
+      }
+  }
+  ```
 
 - 结构体中的字段除了有名字和类型外，还可以有一个可选的标签（tag）
 - 使用场景：`Kubernetes APIServer` 对所有资源的定义都用 `Json tag` 和 `protoBuff tag`
-  - ```go
-    type MyType struct {
-        // NodeName string `json:"nodeName,omitempty" protobuf:"bytes,10,opt,name=nodeName"`
-        Name string `json:"name"`
-    }
-  
-    func main() {
-        mt := MyType{Name: "test"}
-        myType := reflect.TypeOf(mt)
-        name := myType.Field(0)
-        tag := name.Tag.Get("json")
-        println(tag)
-    }
-    ```
+
+  ```go
+  type MyType struct {
+      // NodeName string `json:"nodeName,omitempty" protobuf:"bytes,10,opt,name=nodeName"`
+      Name string `json:"name"`
+  }
+
+  func main() {
+      mt := MyType{Name: "test"}
+      myType := reflect.TypeOf(mt)
+      name := myType.Field(0)
+      tag := name.Tag.Get("json")
+      println(tag)
+  }
+  ```
 
 ## Function
 
@@ -363,10 +368,6 @@ func main(){
 
 ### Init Function
 
-- Init 函数：会在包初始化时运行
-- 谨慎使用 init 函数
-  - 当多个依赖项目引用统一项目，且被引用项目的初始化在 `init` 中完成，并且不可重复运行时，会导致启动错误
-
 ```go
 package main
 var myVariable = 0
@@ -374,6 +375,10 @@ func init() {
     myVariable = 1
 }
 ```
+
+- Init 函数：会在包初始化时运行
+- 谨慎使用 init 函数
+  - 当多个依赖项目引用统一项目，且被引用项目的初始化在 `init` 中完成，并且不可重复运行时，会导致启动错误
 
 ### Multiple Return Values
 
@@ -389,25 +394,28 @@ func init() {
 ### Error
 
 - Go 语言无内置 `exceptio` 机制，只提供 error 接口供定义错误
-  - ```go
-      type error interface {
-          Error() string
-      }
-      ```
+
+  ```go
+  type error interface {
+      Error() string
+  }
+  ```
+
 - 可通过 `errors.New` 或 `fmt.Errorf` 创建新的 `error`
   - `var errNotFound error = errors.New("NotFound")`
 - 通常应用程序对 `error` 的处理大部分是判断 `error` 是否为 `nil`
 - 如需将 `error` 归类，通常交给应用程序自定义，比如 `kubernetes` 自定义了与 `apiserver` 交互的不同类型错误
-  - ```go
-    type StatusError struct {
-        ErrStatus metav1.Status
-    }
-    var _ error = &StatusError{}
-    // Error implements the Error interface.
-    func (e *StatusError) Error() string {
-        return e.ErrStatus.Message
-    }
-    ```
+
+  ```go
+  type StatusError struct {
+      ErrStatus metav1.Status
+  }
+  var _ error = &StatusError{}
+  // Error implements the Error interface.
+  func (e *StatusError) Error() string {
+      return e.ErrStatus.Message
+  }
+  ```
 
 ### Variable Parameters
 
@@ -492,7 +500,8 @@ func decrease(a, b int) {
 - `panic`: 可在系统出现不可恢复错误时主动调用 `panic`, `panic` 会使当前线程直接 `crash`
 - `defer`: 保证执行并把控制权交还给接收到 `panic` 的函数调用者
 - `recover`: 函数从 `panic` 或 错误场景中恢复
-- ```go
+
+  ```go
   defer func() {
       fmt.Println("defer func is called")
       if err := recover(); err != nil {
@@ -510,7 +519,8 @@ func decrease(a, b int) {
   - `func (recv receiver_type) methodName(parameter_list) (return_value_list)`
 - 使用场景
   - 很多场景下，函数需要的上下文可以保存在 `receiver` 属性中，通过定义 `receiver` 的方法，该方法可以直接访问 `receiver` 属性，减少参数传递需求
-  - ```go
+
+    ```go
     // StartTLS starts TLS on a server from NewUnstartedServer.
     func (s *Server) StartTLS() {
         if s.URL != "" {
@@ -534,11 +544,13 @@ func decrease(a, b int) {
 ### Interface Agreement
 
 - 接口定义一组方法集合
-  - ```go
-    type IF interface {
-        Method1(param_list) return_type
-    }
-    ```
+
+  ```go
+  type IF interface {
+      Method1(param_list) return_type
+  }
+  ```
+
 - 适用场景： `Kubernetes` 中有大量的接口抽象和多种实现
 - `Struct` 无需显示声明实现 `interface` ，只需直接实现方法
 - `Struct` 除实现 `interface` 定义的接口外，还可以有额外的方法
@@ -632,14 +644,15 @@ Communicating Sequential Process
   - `var identifier chan datatype`
   - 操作符 `<-`
 - 示例
-  - ```go
-    ch := make(chan int)
-    go func() {
-        fmt.Println("hello from goroutine")
-        ch <- 0  //数据写入Channel
-    }()
-    i := <-ch  //从Channel中取数据并赋值
-    ```
+
+  ```go
+  ch := make(chan int)
+  go func() {
+      fmt.Println("hello from goroutine")
+      ch <- 0  //数据写入Channel
+  }()
+  i := <-ch  //从Channel中取数据并赋值
+  ```
 
 #### Channel Buffer
 
@@ -678,24 +691,26 @@ for v := range ch {
 - `Istio webhook controller`
   - `func (w *WebhookCertPatcher) runWebhookController(stopChan <-chan struct{}) {}`
 - 如何用: 双向通道转换
-  - ```go
-    var c = make(chan int) 
-    go prod(c)
-    go consume(c)
-    func prod(ch chan<- int){
-        for { ch <- 1 }
-    }
-    func consume(ch <-chan int) {
-        for { <-ch }
-    }
-    ```
+
+  ```go
+  var c = make(chan int) 
+  go prod(c)
+  go consume(c)
+  func prod(ch chan<- int){
+      for { ch <- 1 }
+  }
+  func consume(ch <-chan int) {
+      for { <-ch }
+  }
+  ```
 
 #### Close Channel
 
 - 通道无需每次关闭
 - 关闭的作用是告诉接收者该通道再无新数据发送
 - 只有发送方需要关闭通道
-- ```go
+
+  ```go
   ch := make(chan int)
   defer close(ch)
   if v, notClosed := <-ch; notClosed {
@@ -703,27 +718,13 @@ for v := range ch {
   }
   ```
 
-```go
-// 停止子协程
-done := make(chan bool)
-go func() {
-    for {
-    select {
-    case <-done:
-        fmt.Println("done channel is triggerred, exit child go routine")
-        return
-    }
-    }
-}()
-close(done)
-```
-
 #### Select based Multiplexing
 
 - 当多个协程同时运行时，可通过 `select` 轮询多个通道
   - 如果所有通道都阻塞则等待，如定义了 `default` 则执行 `default`
   - 如多个通道就绪则随机选择
-  - ```go
+
+    ```go
     select {
     case <-ch1:
         // ...
@@ -737,10 +738,11 @@ close(done)
 - time.Ticker 以指定的时间间隔重复的向通道 C 发送时间值
 - 使用场景
   - 为协程设定超时时间
-  - ```go
+
+    ```go
     timer := time.NewTimer(time.Second)
     select {
-	// check normal channel
+    // check normal channel
     case <-ch:
         fmt.Println("received from ch")
     case <-timer.C:
@@ -748,34 +750,50 @@ close(done)
     }
     ```
 
+- 停止子协程
+
+  ```go
+  done := make(chan bool)
+  go func() {
+      for {
+          select {
+          case <-done:
+              fmt.Println("done channel is triggerred, exit child go routine")
+              return
+          }
+      }
+  }()
+  close(done)
+  ```
+
 #### Context
 
+- Context 是 Go 语言对 `go routine` 和 `timer` 的封装
 - 超时、取消操作或者一些异常情况，往往需要进行抢占操作或者中断后续操作
 - Context 是设置截止日期、同步信号，传递请求相关值的结构体
-  - ```go
-    type Context interface {
-    Deadline() (deadline time.Time, ok bool)
-    Done() <-chan struct{}
-    Err() error
-    Value(key interface{}) interface{}
-    }
-    ```
+
+  ```go
+  type Context interface {
+      Deadline() (deadline time.Time, ok bool)
+      Done() <-chan struct{}
+      Err() error
+      Value(key interface{}) interface{}
+  }
+  ```
+
 - 用法
   - `context.Background`
   - `context.TODO`
   - `context.WithDeadline`
   - `context.WithValue`
   - `context.WithCancel`
-- Context 是 Go 语言对 `go routine` 和 `timer` 的封装
-  - ```go
-    // 使用 Context 停止子协程
-    ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-    defer cancel()
-    go process(ctx, 100*time.Millisecond)
-    <-ctx.Done()
-    fmt.Println("main:", ctx.Err())
-    ```
+- 使用 Context 停止子协程
 
-
-
-
+  ```go
+  // 
+  ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+  defer cancel()
+  go process(ctx, 100*time.Millisecond)
+  <-ctx.Done()
+  fmt.Println("main:", ctx.Err())
+  ```
